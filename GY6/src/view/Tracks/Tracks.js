@@ -1,93 +1,58 @@
-import { exampleTracks } from '../../domain/track'
+import { useState } from 'react';
+import { exampleTracks } from '../../domain/track';
+import { Track } from './Track';
+import { TrackForm } from './TrackForm';
 
 const Tracks = () => {
+
+    const [trackToEdit, setTrackToEdit] = useState({ id: null });
+    const resetTrackToEdit = () => setTrackToEdit({ id: null });
+    const [modalOpen, setModalOpen] = useState(false);
+    const closeModal = () => setModalOpen(false);
+    const openModalForNew = () => {
+        resetTrackToEdit();
+        setModalOpen(true);
+    }
+    const openModalForEdit = track => {
+        setTrackToEdit(track);
+        setModalOpen(true);
+    }
     return (
         <>
-        <div className="ui container">
-            <a href="#" className="ui right floated green button" id="newModal">
-            <i className="plus icon"></i>
-            New track
-            </a>
-            <h1>Tracks</h1>
-            <table className="ui celled striped table">
-            <thead>
-                <tr>
-                <th>Artist</th>
-                <th>Title</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {exampleTracks.map((track) => (
-                    <tr>
-                    <td><i className="user icon"></i> {track.artist}</td>
-                    <td><i className="music icon"></i> {track.title}</td>
-                    <td className="right aligned collapsing">
-                        <div className="ui icon top right pointing dropdown button">
-                        <i className="plus icon"></i>
-                        <div className="menu">
-                            <div className="header">Add to playlist</div>
-                            <div className="ui search icon input">
-                            <i className="search icon"></i>
-                            <input type="text" name="search" placeholder="Search playlists..." />
-                            </div>
-                            <div className="item">Heavy Metal</div>
-                            <div className="item">classNameics</div>
-                            <div className="item">Movie Soundtracks</div>
-                        </div>
-                        </div>
-                        <button className="ui icon button"><i className="edit icon"></i></button>
-                        <button className="ui icon button red"><i className="trash icon"></i></button>
-                    </td>
-                    </tr>
-                ))}
-            </tbody>
-            </table>
-        </div>
+            <div className="ui container">
+                <button className="ui right floated green button" id="newModal" onClick={openModalForNew}>
+                    <i className="plus icon"></i>
+                    New track
+                </button>
+                <h1>Tracks</h1>
+                <table className="ui celled striped table">
+                    <thead>
+                        <tr>
+                            <th>Artist</th>
+                            <th>Title</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {exampleTracks.map((track) => (
+                            <Track
+                                key={track.id}
+                                track={track}
+                            ></Track>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
-        <div className="ui modal">
-            <i className="close icon"></i>
-            <div className="header">Add new Track</div>
-            <div className="image content">
-            <div className="description">
-                <form className="ui form">
-                <div className="two fields">
-                    <div className="field">
-                    <label>Author</label>
-                    <input required type="text" placeholder="John Williams" />
-                    </div>
-                    <div className="field">
-                    <label>Track name</label>
-                    <input required type="text" placeholder="Imperial March" />
-                    </div>
-                </div>
-                <div className="three fields">
-                    <div className="field">
-                    <label>Spotify URL</label>
-                    <input type="text" placeholder="https://" />
-                    </div>
-                    <div className="field">
-                    <label>Lyrics URL</label>
-                    <input type="text" placeholder="https://" />
-                    </div>
-                    <div className="field">
-                    <label>Guitar tab URL</label>
-                    <input type="text" placeholder="https://" />
-                    </div>
-                </div>
-                </form>
-            </div>
-            </div>
-            <div className="actions">
-            <div className="ui black deny button">
-                Cancel
-            </div>
-            <div className="ui positive right labeled icon button">
-                Add
-                <i className="plus icon"></i>
-            </div>
-            </div>
-        </div>
+            <TrackForm
+                onSubmit={console.log}
+                track={trackToEdit}
+                key={trackToEdit.id}
+                closeModal={closeModal}
+                modalOpen={modalOpen}
+                openModal={openModalForNew}
+
+            ></TrackForm>
         </>
     );
 }

@@ -3,7 +3,7 @@ import Playlist from './Playlist';
 import PlaylistList from './PlaylistList';
 import { examplePlaylists } from '../../domain/playlist';
 import { exampleTracks } from '../../domain/track';
-import { useState } from 'react'
+import { useState } from 'react';
 
 const Playlists = () => {
     const playlists = examplePlaylists;
@@ -12,12 +12,12 @@ const Playlists = () => {
     const defaultId = playlists[0].id;
     const [chosenPlaylistId, setChosenPlaylistId] = useState(defaultId); // Az ilyen mindig egy változó és a settere, a paraméter a kezdőérték
     const chosenPlaylist = playlists.find(
-        playlist => playlist.id === setChosenPlaylistId
+        playlist => playlist.id === chosenPlaylistId
     );
 
     const [chosenTrackId, setChosenTrackId] = useState(defaultId);
     const chosenTrack = tracks.find(
-        track => track.id === setChosenTrackId
+        track => track.id === chosenTrackId
     );
 
     const handleChosenPlaylist = id => {
@@ -46,7 +46,7 @@ const Playlists = () => {
                     ></Playlist>
                 </div>
                 <div className="ui divider"></div>
-                <TrackDetails></TrackDetails>
+                <TrackDetails chosenTrack={chosenTrack}></TrackDetails>
             </div>
 
             <div className="ui modal">

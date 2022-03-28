@@ -1,45 +1,26 @@
 
-
-const Playlist = () => {
+import cn from 'classnames'
+const Playlist = (props) => {
+    const { chosenPlaylist, chosenTrackId, onChoseTrack } = props;
     return (
         <div className="ui ten wide column">
-            <h3>classNameics</h3>
+            <h3>{chosenPlaylist?.title || "Még nincs"}</h3>
             <div className="ui very relaxed selection list">
-                <div className="item">
-                    <i className="large music middle aligned icon"></i>
-                    <div className="content">
-                        <a className="header">Highway to hell</a>
-                        <div className="description">AC/DC</div>
-                    </div>
-                </div>
-                <div className="item">
-                    <i className="large music middle aligned icon"></i>
-                    <div className="content">
-                        <a className="header">Thunderstruck</a>
-                        <div className="description">AC/DC</div>
-                    </div>
-                </div>
-                <div className="item">
-                    <i className="large music middle aligned icon"></i>
-                    <div className="content">
-                        <a className="header">Take me home country roads</a>
-                        <div className="description">John Denver</div>
-                    </div>
-                </div>
-                <div className="active item">
-                    <i className="large music middle aligned icon"></i>
-                    <div className="content">
-                        <a className="header">It's my life</a>
-                        <div className="description">Bon Jovi</div>
-                    </div>
-                </div>
-                <div className="item">
-                    <i className="large music middle aligned icon"></i>
-                    <div className="content">
-                        <a className="header">Livin' on a prayer</a>
-                        <div className="description">Bon Jovi</div>
-                    </div>
-                </div>
+                {chosenPlaylist.tracks.map(track => {
+                    return (<div className={cn("item", {
+                        active: track.id === chosenTrackId
+                    })}
+                        onClick={() => onChoseTrack(track.id)}
+                    >
+                        {track.thumbnailURL ? <img src={track.thumbnailURL} /> : <i className="large music middle aligned icon"></i>}
+
+                        <div className="content">
+                            <a className="header">{track.title}</a>
+                            <div className="description">{track.artist}</div>
+                        </div>
+                    </div>);
+                })}
+
             </div>
         </div>
     );
